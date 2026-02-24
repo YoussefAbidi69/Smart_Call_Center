@@ -1,13 +1,7 @@
 package tn.esprit.youssefabidi_4arctic10.services;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import tn.esprit.youssefabidi_4arctic10.entities.CallStatus;
 import tn.esprit.youssefabidi_4arctic10.entities.Calls;
@@ -17,17 +11,16 @@ import tn.esprit.youssefabidi_4arctic10.repositories.ICallsRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Primary
+
 @RequiredArgsConstructor
 @Service
-public class CallsServicesImpl implements ICallsServices{
+public class CallsServicesImplC2 implements ICallsServices {
     private final IAgentsRespository agentsRespository;
     private final ICallsRepository callRepository ;
     @Override
     public Calls addCalls(Calls calls) {
 
-        calls.setCallsDateTime(LocalDateTime.now());
-        calls.setStatus(CallStatus.ON_HOLD);
+
         return callRepository.save(calls);
     }
 
@@ -38,7 +31,7 @@ public class CallsServicesImpl implements ICallsServices{
 
     @Override
     public void deleteCalls(Long id) {
-         callRepository.deleteById(id);
+        callRepository.deleteById(id);
     }
 
     @Override
