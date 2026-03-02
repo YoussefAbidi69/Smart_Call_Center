@@ -22,5 +22,28 @@ public class ProjectRestController {
         return projectsServices.addProject(project);
     }
 
+    @PutMapping("update")
+    public Projects updateProject(@RequestBody Projects project) {
+        return projectsServices.updateProject(project);
+    }
 
+    @DeleteMapping("delete/{id}")
+    public void deleteProjectById(@PathVariable long id) {
+        projectsServices.deleteProjectById(id);
+    }
+
+    @GetMapping("get/{id}")
+    public Projects getProjectById(@PathVariable long id) {
+        return projectsServices.getProjectById(id);
+    }
+
+    @GetMapping("all")
+    public List<Projects> getAllProjects() {
+        return projectsServices.getAll();
+    }
+
+    @GetMapping("{id}/agents")
+    public List<Agents> getAgentsByProject(@PathVariable Long id) {
+        return projectsServices.getAgents(id);
+    }
 }
