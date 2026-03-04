@@ -12,4 +12,5 @@ public interface IAgentService {
     void deleteAgent(Agents agent);
     Agents getById(long agentId);
     List<Agents> getAll();
+    Agents addAndAssignToProject(Agents agent);
 }

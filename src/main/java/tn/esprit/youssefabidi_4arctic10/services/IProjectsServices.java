@@ -13,4 +13,5 @@ public interface IProjectsServices {
     void deleteProject(Projects project);
     Projects getProjectById(long id);
     List<Projects> getAll();
+    Projects assignToagent(Long projctId, Long agentId);
 }

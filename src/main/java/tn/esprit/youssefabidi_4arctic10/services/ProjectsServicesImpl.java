@@ -7,6 +7,7 @@ import org.aspectj.weaver.loadtime.Agent;
 import org.springframework.stereotype.Service;
 import tn.esprit.youssefabidi_4arctic10.entities.Agents;
 import tn.esprit.youssefabidi_4arctic10.entities.Projects;
+import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
 import tn.esprit.youssefabidi_4arctic10.repositories.IProjectsRepository;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProjectsServicesImpl implements IProjectsServices{
 
     private final IProjectsRepository projectsRepository;
+    private final IAgentsRespository agentsRespository;
 
     @Override
     public Projects addProject(Projects project) {
@@ -45,6 +47,15 @@ public class ProjectsServicesImpl implements IProjectsServices{
     @Override
     public List<Projects> getAll() {
         return projectsRepository.findAll();
+    }
+
+    @Override
+    public Projects assignToagent(Long projctId, Long agentId) {
+        Projects project = projectsRepository.findById(projctId).orElseThrow(()->new EntityNotFoundException("calls not found"));
+        Agents agent  =  agentsRespository.findById(agentId).orElse(null);
+        //affectation
+        project.getAgents().add(agent);
+        return projectsRepository.save(project);
     }
 
 

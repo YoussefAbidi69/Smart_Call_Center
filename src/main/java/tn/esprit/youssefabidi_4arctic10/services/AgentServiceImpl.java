@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.loadtime.Agent;
 import org.springframework.stereotype.Service;
 import tn.esprit.youssefabidi_4arctic10.entities.Agents;
+import tn.esprit.youssefabidi_4arctic10.entities.Projects;
 import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
+import tn.esprit.youssefabidi_4arctic10.repositories.IProjectsRepository;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public class AgentServiceImpl implements IAgentService {
 
     private final IAgentsRespository agentRepository;
-
+    private final IProjectsRepository projectsRepository;
     @Override
     public Agents addAgent(Agents agent) {
         return agentRepository.save(agent);
@@ -45,5 +47,16 @@ public class AgentServiceImpl implements IAgentService {
     @Override
     public List<Agents> getAll() {
         return agentRepository.findAll();
+    }
+
+    @Override
+    public Agents addAndAssignToProject(Agents agent) {
+        Agents newAgents = agentRepository.save(agent);
+        for(Projects aProject : agent.getMyProject())
+        {
+            aProject.getAgents().add(newAgents);
+            projectsRepository.save(aProject);
+        }
+        return newAgents;
     }
 }

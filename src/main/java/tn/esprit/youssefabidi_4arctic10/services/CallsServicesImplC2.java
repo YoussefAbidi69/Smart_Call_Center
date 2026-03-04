@@ -3,6 +3,7 @@ package tn.esprit.youssefabidi_4arctic10.services;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.youssefabidi_4arctic10.entities.Agents;
 import tn.esprit.youssefabidi_4arctic10.entities.CallStatus;
 import tn.esprit.youssefabidi_4arctic10.entities.Calls;
 import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
@@ -42,5 +43,21 @@ public class CallsServicesImplC2 implements ICallsServices {
     @Override
     public List<Calls> GetAllCalls() {
         return callRepository.findAll();
+    }
+
+    @Override
+    public Calls assignToAGent(Long callsId, Long agentid) {
+        Calls calls  = callRepository.findById(callsId).orElseThrow(()->new EntityNotFoundException("calls not found"));
+        Agents agent = agentsRespository.findById(agentid).orElse(null);
+        calls.setAssignedAgent(agent); //affectation
+        return callRepository.save(calls) ;
+    }
+
+    @Override
+    public Calls assignToAGent(Calls calls, Long agentid) {
+        Agents agent = agentsRespository.findById(agentid).orElse(null);
+        calls.setAssignedAgent(agent);   // affectation
+        return callRepository.save(calls);
+
     }
 }

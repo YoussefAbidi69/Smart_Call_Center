@@ -1,5 +1,6 @@
 package tn.esprit.youssefabidi_4arctic10.controllers;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Call;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.youssefabidi_4arctic10.entities.Calls;
 import tn.esprit.youssefabidi_4arctic10.repositories.ICallsRepository;
@@ -38,6 +39,17 @@ public class CallsRestController {
         return callsServices.GetAllCalls();
     }
 
+    @PutMapping("assigntoagent/{callsId}/{agentid}")
+    public Calls assignToAGent(@PathVariable Long callsId, @PathVariable Long agentid) {
+
+        return callsServices.assignToAGent(callsId,agentid);
+    }
+
+    @PostMapping("assignToagent/{agentid}")
+    public Calls assignToAGent(@RequestBody  Calls calls, @PathVariable  Long agentid ){
+        return callsServices.assignToAGent(calls,agentid);
+
+    }
 
 
 

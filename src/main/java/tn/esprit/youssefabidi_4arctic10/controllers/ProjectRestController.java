@@ -46,4 +46,11 @@ public class ProjectRestController {
     public List<Agents> getAgentsByProject(@PathVariable Long id) {
         return projectsServices.getAgents(id);
     }
-}
+
+
+    @PutMapping("assignToagent/{projctId}/{agentId}")
+    public Projects assignToagent(@PathVariable  Long projctId, @PathVariable Long agentId) {
+        return projectsServices.assignToagent(projctId,agentId) ;
+    }
+
+    }
