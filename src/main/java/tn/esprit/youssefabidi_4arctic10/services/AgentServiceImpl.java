@@ -9,6 +9,8 @@ import tn.esprit.youssefabidi_4arctic10.entities.Agents;
 import tn.esprit.youssefabidi_4arctic10.entities.Projects;
 import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
 import tn.esprit.youssefabidi_4arctic10.repositories.IProjectsRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class AgentServiceImpl implements IAgentService {
 
     private final IAgentsRespository agentRepository;
     private final IProjectsRepository projectsRepository;
+    @Transactional
     @Override
     public Agents addAgent(Agents agent) {
         return agentRepository.save(agent);
