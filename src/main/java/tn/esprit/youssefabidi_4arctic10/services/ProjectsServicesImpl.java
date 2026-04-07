@@ -9,7 +9,8 @@ import tn.esprit.youssefabidi_4arctic10.entities.Agents;
 import tn.esprit.youssefabidi_4arctic10.entities.Projects;
 import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
 import tn.esprit.youssefabidi_4arctic10.repositories.IProjectsRepository;
-
+import tn.esprit.youssefabidi_4arctic10.dto.ProjectsDTO;
+import tn.esprit.youssefabidi_4arctic10.dto.ProjectMapper;
 import java.util.List;
 
 @Service
@@ -18,9 +19,16 @@ public class ProjectsServicesImpl implements IProjectsServices{
 
     private final IProjectsRepository projectsRepository;
     private final IAgentsRespository agentsRespository;
+    private final ProjectMapper projectMapper;
+
+
 
     @Override
     public Projects addProject(Projects project) {
+        project.setProjectsId(0);
+        if (project.getProjectDetails() != null) {
+            project.getProjectDetails().setDetailsId(0);
+        }
         return projectsRepository.save(project);
     }
 
@@ -64,4 +72,21 @@ public class ProjectsServicesImpl implements IProjectsServices{
         Projects project = projectsRepository.findById(idProject).orElseThrow(() -> new EntityNotFoundException("not found"));
         project.getProjectDetails();
         return project.getAgents().stream().toList();    }
+
+
+
+    @Override
+    public ProjectsDTO findProjectDTO(long id) {
+        Projects project = projectsRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("project with id " + id + " not found"));
+        return projectMapper.toDTO(project);
+    }
+
+    @Override
+    public ProjectsDTO getProjectDTO(Projects project) {
+        ProjectsDTO projectsDTO = new ProjectsDTO();
+        projectsDTO.setProjectId(project.getProjectsId());
+        projectsDTO.setProjectName(project.getLibelle());
+        projectsDTO.setClientName(project.getProjectDetails().getClient());
+        return projectsDTO;
+    }
 }

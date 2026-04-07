@@ -7,7 +7,7 @@ import tn.esprit.youssefabidi_4arctic10.entities.Agents;
 import tn.esprit.youssefabidi_4arctic10.entities.Projects;
 import tn.esprit.youssefabidi_4arctic10.services.IProjectsServices;
 import tn.esprit.youssefabidi_4arctic10.services.ProjectsServicesImpl;
-
+import tn.esprit.youssefabidi_4arctic10.dto.ProjectsDTO;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -51,6 +51,11 @@ public class ProjectRestController {
     @PutMapping("assignToagent/{projctId}/{agentId}")
     public Projects assignToagent(@PathVariable  Long projctId, @PathVariable Long agentId) {
         return projectsServices.assignToagent(projctId,agentId) ;
+    }
+
+    @GetMapping("findProject/{id}")
+    public ProjectsDTO getProjectDTOById(@PathVariable long id) {
+        return projectsServices.findProjectDTO(id);
     }
 
     }
