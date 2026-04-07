@@ -8,7 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ProjectsDTO {
-    private long projectId;
-    private  String projectName;
-    private  String clientName;
+
+    private Long projectId;
+    private String projectName;
+    private String clientName;
+
 }
