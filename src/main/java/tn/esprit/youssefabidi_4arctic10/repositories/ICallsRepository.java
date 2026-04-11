@@ -1,6 +1,8 @@
 package tn.esprit.youssefabidi_4arctic10.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import tn.esprit.youssefabidi_4arctic10.entities.Calls;
 import tn.esprit.youssefabidi_4arctic10.entities.*;
 
@@ -23,4 +25,17 @@ public interface ICallsRepository extends JpaRepository<Calls, Long> {
     boolean existsByPhoneNumber(String phoneNumber);
 
     long countByStatus(CallStatus status);
+
+
+    @Query("SELECT c FROM Calls c WHERE c.assignedAgent.agentsId = :idAgent")
+    List<Calls> findCallsByAgent(@Param("idAgent") Long idAgent);
+
+    @Query("SELECT c FROM Calls c WHERE :skill MEMBER OF c.requiredSkills")
+    List<Calls> findCallsBySkill(@Param("skill") CallSkills skill);
+
+    @Query("SELECT c.status, COUNT(c) FROM Calls c GROUP BY c.status")
+    List<Object[]> countCallsByStatus();
+
+    @Query("SELECT c FROM Calls c WHERE FUNCTION('DATE', c.callsDateTime) = CURRENT_DATE")
+    List<Calls> findTodayCalls();
 }

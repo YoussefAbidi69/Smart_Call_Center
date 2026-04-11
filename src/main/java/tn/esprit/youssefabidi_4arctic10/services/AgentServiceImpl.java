@@ -5,14 +5,17 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.loadtime.Agent;
 import org.springframework.stereotype.Service;
-import tn.esprit.youssefabidi_4arctic10.entities.Agents;
-import tn.esprit.youssefabidi_4arctic10.entities.Projects;
+import tn.esprit.youssefabidi_4arctic10.entities.*;
 import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
+import tn.esprit.youssefabidi_4arctic10.repositories.ICallsRepository;
 import tn.esprit.youssefabidi_4arctic10.repositories.IProjectsRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import tn.esprit.youssefabidi_4arctic10.entities.Agents;
+import tn.esprit.youssefabidi_4arctic10.repositories.IAgentsRespository;
 
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +23,8 @@ public class AgentServiceImpl implements IAgentService {
 
     private final IAgentsRespository agentRepository;
     private final IProjectsRepository projectsRepository;
+    private final ICallsRepository callsRepository;
+
     @Transactional
     @Override
     public Agents addAgent(Agents agent) {
@@ -62,4 +67,57 @@ public class AgentServiceImpl implements IAgentService {
         }
         return newAgents;
     }
+
+    @Override
+    public List<Agents> getAvailableAgents() {
+        return agentRepository.findByAvailableTrue();
+    }
+
+    @Override
+    public List<Agents> getAgentsBySkill(CallSkills skill) {
+        return agentRepository.findBySkillsContaining(skill);
+    }
+
+    @Override
+    public List<Agents> getAvailableAgentsWithSkills(Set<CallSkills> skills) {
+        return agentRepository.findByAvailableTrueAndSkillsIn(skills);
+    }
+
+
+
+    @Override
+    public List<Calls> getCallsByAgent(Long idAgent) {
+        return callsRepository.findCallsByAgent(idAgent);
+    }
+
+    @Override
+    public List<Calls> getCallsBySkill(CallSkills skill) {
+        return callsRepository.findCallsBySkill(skill);
+    }
+
+    @Override
+    public List<Agents> getAgentsBySkillJPQL(CallSkills skill) {
+        return agentRepository.findAgentsBySkill(skill);
+    }
+
+    @Override
+    public Agents getMostCompetentAgentForCall(Long callsId) {
+        return agentRepository.findMostCompetentAgentForCall(callsId);
+    }
+
+    @Override
+    public List<Object[]> countCallsByStatus() {
+        return callsRepository.countCallsByStatus();
+    }
+
+    @Override
+    public List<Object[]> getTopActiveAgents() {
+        return agentRepository.findTopActiveAgents();
+    }
+
+    @Override
+    public List<Calls> getTodayCalls() {
+        return callsRepository.findTodayCalls();
+    }
+
 }
